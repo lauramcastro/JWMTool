@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<project default="compile" basedir=".">
+
+<!-- ============================  Properties ============================== -->
+
+	<property file="${basedir}/ant.properties"/>
+
+	<property name="jwmtool.home"       value="${basedir}"/>
+	<property name="jwmtool.build"      value="${jwmtool.home}/build"/>
+	<property name="jwmtool.classes"    value="${jwmtool.build}/classes"/>
+	<property name="jwmtool.classpath"  value="${jwmtool.classes}:${project.jfp.jar}"/>
+	<property name="jwmtool.configfile" value="jwmtool.conf"/>
+        <property name="jwmtool.jars"       value="${jwmtool.build}/jars"/>
+	<property name="jwmtool.jar"        value="${jwmtool.jars}/JWMTool.jar"/>
+	<property name="jwmtool.javadoc"    value="${jwmtool.build}/javadoc"/>
+	<property name="jwmtool.src"        value="${jwmtool.home}/src"/>
+	<property name="jwmtool.images"     value="${jwmtool.home}/images"/>
+	<property name="jwmtool.messages"   value="${jwmtool.home}/messages"/>
+
+<!-- ============================ "init" target ============================ -->
+			  
+	<target name="init">		
+		<echo>
+--------------------------------------------------------------------------------
+Building "${project.name} v${project.version} (${build.compiler})" ...
+--------------------------------------------------------------------------------
+		</echo>
+	</target>			  	  
+
+<!-- ============================ "all" target ============================= -->
+
+	<target name="all" depends="rebuild, jars, javadoc"/>
+
+<!-- ========================== "compile" target =========================== -->
+
+	<target name="compile" depends="init">
+		<mkdir dir="${jwmtool.classes}"/>
+		<javac includeantruntime="false"
+		 srcdir="${jwmtool.src}" 
+                 destdir="${jwmtool.classes}"
+                 classpath="${jwmtool.classpath}"
+                 debug="${javac.debug}" 
+                 optimize="${javac.optimize}" 
+                 deprecation="${javac.deprecation}"/>
+		<copy file="${jwmtool.configfile}" todir="${jwmtool.classes}"/>
+                <copy todir="${jwmtool.classes}/jwmtool/images">
+                    <fileset dir="${jwmtool.images}"/>
+                </copy>
+                <copy todir="${jwmtool.classes}/jwmtool/messages">
+                    <fileset dir="${jwmtool.messages}"/>
+                </copy>
+                <copy todir="${jwmtool.classes}">
+                    <fileset dir="${jwmtool.src}">
+                       <include name="**/*.properties"/>
+		    </fileset>
+		</copy>
+	</target>
+
+<!-- ========================= "cleanclasses" target ======================= -->
+
+	<target	name="cleanclasses" depends="init">
+		<delete dir="${jwmtool.classes}"/>
+		<delete verbose="true">
+			<fileset dir="${jwmtool.src}" defaultexcludes="false">
+                            <include name="**/*.class"/>
+                        </fileset>
+                </delete>
+	</target>
+
+<!-- ========================= "cleanbackups" target ======================= -->
+
+	<target	name="cleanbackups" depends="init">
+		<delete verbose="true">
+			<fileset dir="${jwmtool.home}" defaultexcludes="false">
+                           <include name="**/*~"/>
+                        </fileset>
+                </delete>
+	</target>
+
+ <!-- =========================== "clean" target =========================== -->
+
+	<target name="clean" depends="init, cleanbackups, cleanclasses">
+		<delete dir="${jwmtool.build}"/>
+	</target>
+
+<!-- ========================== "rebuild" target =========================== -->
+
+	<target name="rebuild" depends="cleanclasses, compile" />
+
+<!-- ============================ "jars" target ============================ -->
+
+	<target name="jars" depends="compile">
+	   <mkdir dir="${jwmtool.jars}"/>
+		<jar jarfile="${jwmtool.jar}" basedir="${jwmtool.classes}" excludes="${jwmtool.configfile}">
+                   <manifest>
+                      <attribute name="Built-By" value="${user.name}"/>
+                      <attribute name="Main-Class" value="jwmtool/JWMTool"/>
+                      <attribute name="Class-Path" value="ant-1.5.1.jar java_plotter_2.0.jar"/>
+                   </manifest>
+                </jar>
+		<copy file="${jwmtool.configfile}" todir="${jwmtool.jars}"/>
+ 		<copy file="${project.jfp.jar}" tofile="${jwmtool.jars}/java_plotter_2.0.jar"/>
+	</target>
+
+ <!-- ========================= "javadoc" target =========================== -->
+
+	<target name="javadoc" depends="compile">
+		<delete dir="${jwmtool.javadoc}"/>
+		<mkdir dir="${jwmtool.javadoc}"/>
+		<javadoc packagenames="jwmtool.*"
+			 sourcepath="${jwmtool.src}"
+			 classpath="${jwmtool.classpath}"
+			 destdir="${jwmtool.javadoc}"
+			 private="yes"
+			 windowtitle="JWMTool 0.6 Documentation"
+			 doctitle="${project.name} v${project.version}"
+			 header="${project.name} v${project.version}"
+			 bottom="${project.name} v${project.version} - ${project.author}"/>
+  </target>
+
+</project>

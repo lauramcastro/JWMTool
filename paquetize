@@ -1,0 +1,48 @@
+#!/bin/sh
+
+uso() {
+  echo "USAGE: $0 linux|windows"
+  exit 1;
+}
+
+main() {
+  case "$1" in
+    linux)
+      rm -rf /tmp/JWMTool
+      mkdir /tmp/JWMTool
+      echo "\$JAVA5_HOME/bin/java -Djava.protocol.handler.pkgs=jwmtool.protocols -jar JWMTool.jar" > /tmp/JWMTool/jwmtool
+      echo "INSTALLATION AND EXECUTION INSTRUCTIONS" >  /tmp/JWMTool/README
+      echo "---------------------------------------" >> /tmp/JWMTool/README
+      echo "1) Configure the environment variable JAVA5_HOME to point to your JDK1.5 installation directory" >> /tmp/JWMTool/README
+      echo "2) Execute ./jwmtool" >> /tmp/JWMTool/README
+      chmod +x /tmp/JWMTool/jwmtool
+      cp build/jars/* /tmp/JWMTool/
+      pushd /tmp
+      tar cvfz JWMTool.tar.gz JWMTool/*
+      rm -rf /tmp/JWMTool
+      popd
+      mv -f /tmp/JWMTool.tar.gz .
+      ;;
+    windows)
+      rm -rf /tmp/JWMTool
+      mkdir /tmp/JWMTool
+      echo "%JAVA5_HOME%\bin\java.exe -Djava.protocol.handler.pkgs=jwmtool.protocols -jar JWMTool.jar" > /tmp/JWMTool/jwmtool.bat
+      echo "INSTALLATION AND EXECUTION INSTRUCTIONS" >  /tmp/JWMTool/README
+      echo "---------------------------------------" >> /tmp/JWMTool/README
+      echo "1) Configure the environment variable JAVA5_HOME to point to your JDK1.5 installation directory" >> /tmp/JWMTool/README
+      echo "2) Double-clic on jwmtool.bat" >> /tmp/JWMTool/README
+      cp build/jars/* /tmp/JWMTool/
+      pushd /tmp
+      zip JWMTool.zip JWMTool/*
+      rm -rf /tmp/JWMTool
+      popd
+      mv -f /tmp/JWMTool.zip .	
+      ;;
+    *)
+      uso
+      ;;
+  esac
+  exit 0
+}
+
+main "$@"

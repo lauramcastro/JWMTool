@@ -1,0 +1,16 @@
+12-06-2012 (release 0.6) ------------------------------------------------------
+
+- YUV file filter recognizes not only ".yuv" but also ".y4m" as valid YUV
+  videostream extensions.
+- Support for YUV 4:2:0 and YUV 4:4:4 formats added to original YUV 4:2:2
+  format support.
+
+28-06-2007 (release 0.5) ------------------------------------------------------
+
+- Full source code documentation (Javadoc format).
+
+06-06-2007 (release 0.4) ------------------------------------------------------
+
+- NullPointerException due to incomplete configuration fixed
+- NullPointerException due to incomplete random option configuration setup
+  fixed

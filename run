@@ -1,0 +1,43 @@
+#!/bin/bash
+
+##
+## ENVIROMENT VARIABLES:
+##
+##	- JAVA5_HOME
+##	- JWMTOOL_HOME
+
+export CLASSPATH="$JAVA5_HOME/jre/lib/rt.jar:$JWMTOOL_HOME/jars/java_plotter_2.0.jar:."
+
+uso() {
+  echo "USO: $0 [jar]"
+  exit 1;
+}
+
+show_classpath() {
+  echo "------------------------------------------------"
+  echo $CLASSPATH
+  echo "------------------------------------------------"
+}
+
+main() {
+  case "$1" in
+    jar)
+      pushd build/jars;
+      shift;
+      $JAVA5_HOME/bin/java -Djava.protocol.handler.pkgs=jwmtool.protocols -jar JWMTool.jar "$@"
+      ;;
+    *)
+      if [ -z "$1" ]; then      
+        pushd "build/classes";
+        show_classpath
+        $JAVA5_HOME/bin/java -cp $CLASSPATH jwmtool/JWMTool "$@"
+      else 
+	uso
+      fi
+      ;;
+  esac
+  popd
+  exit 0
+}
+
+main "$@"

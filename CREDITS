@@ -1,0 +1,21 @@
+        This is at least a partial credits-file of people that have
+        contributed to this project.  It is sorted by name and
+        formatted to allow easy grepping and beautification by
+        scripts.  The fields are: name (N), email (E), and
+        description (D).
+        Thanks,
+
+                        Laura
+----------
+
+N: Ernst L. Leiss
+E: coscel@cs.uh.edu
+D: Requirements selection and project supervision
+
+N: Samuel Rivas Gonzalez
+E: samuel@lambdastream.com
+D: Technical support
+
+N: Victor Manuel Gulias Fernandez
+E: gulias@udc.es
+D: Project supervision

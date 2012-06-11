@@ -1,0 +1,17 @@
+#!/bin/sh
+
+##
+## OPTIONS
+##
+##	- all, compile, rebuild, jars, javadoc, clean, cleanbackups, cleanclasses
+##
+## ENVIROMENT VARIABLES:
+##
+##	- JAVA5_HOME
+
+##
+## Compile
+##
+LANG=en_US ant "-Dproject.java.rt.jar=$JAVA5_HOME/jre/lib/rt.jar" \
+    "-Dproject.jfp.jar=./jars/java_plotter_2.0.jar" \
+    "$@"
