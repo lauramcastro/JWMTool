@@ -4,7 +4,7 @@ JWMTool -- Java Watermarking Tool
 COMPILATION
 -----------
 
-- Please, make sure environment variable JAVA_HOME/JAVA5_HOME exists
+- Please, make sure environment variable JAVA_HOME and/or JAVA5_HOME exists
   and points to your JDK1.5 (or above) installation directory.
 
 - Run:
@@ -13,6 +13,9 @@ COMPILATION
 
 EXECUTION
 ---------
+
+- Please, make sure environment variable JWMTOOL_HOME exists
+  and points to JWMTool installation directory (this one).
 
 - Perform:
 
